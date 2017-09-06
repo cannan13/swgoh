@@ -30,9 +30,9 @@ for profile in profiles:
     if ( profile not in members ):
         print "%s shows a profile, not in guild" % profile
 
-with open('profiles.txt', 'w') as p:
-    for profile in profiles:
-        p.write(profile + '\n')
+#with open('profiles.txt', 'w') as p:
+#    for profile in profiles:
+#        p.write(profile + '\n')
 
 # retrieve collections for each guild member
 collections = {}
@@ -57,11 +57,12 @@ for user in profiles:
                 star = div["class"][1]
         toon = {"name": link.img["alt"], "level": level, "gear": gear, "star": star}
         user_collection.append(toon)
+    for link in soup.find_all("a", "char-portrait-link"):
+        toon = {"name": link.img["alt"], "star": 'Inactive'}
+        user_collection.append(toon)
 
     collections[user] = user_collection
 
 with open('collections.json', 'w') as fp:
     json.dump(collections, fp)
-
-#for link in soup.find_all("a", "char-portrait-link"):
-#    print ("%s - %s" % (link.img["alt"], 'Inactive'))
+    
